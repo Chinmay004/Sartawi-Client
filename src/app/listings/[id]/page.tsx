@@ -77,6 +77,8 @@ export default function ListingDetailsPage() {
   const [page, setPage] = useState(1);
   const [mainImage, setMainImage] = useState<string | null>(null);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [wasGeocoded, setWasGeocoded] = useState(false);
+
 
   // Fetch listing details
   useEffect(() => {
@@ -144,6 +146,7 @@ export default function ListingDetailsPage() {
           if (geo) {
             lat = geo.lat;
             lng = geo.lon;
+            setWasGeocoded(true);
           }
         }
 
@@ -347,17 +350,13 @@ export default function ListingDetailsPage() {
 
       
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-sm mt-10 bg-[#1a1a1a] py-10 px-13">
+      {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-sm mt-10 bg-[#1a1a1a] py-10 px-13">
         <p className="flex flex-col text-lg">
           <strong className="text-[#a5a5a5] font-normal">Developer Name</strong> {listing.developerName || "Sartawi Developers"}
         </p>
         <p className="flex flex-col text-lg">
           <strong className="text-[#a5a5a5] font-normal">Area</strong> {listing.area || "1220 sq.ft"}
         </p>
-        {/* <p className="flex flex-col text-lg">
-          {/* <strong className="text-[#a5a5a5] font-normal">Amenities</strong> {listing.amenities?.join(", ") || "Children’s Play Area, Swimming Pool"} */}
-          {/* <strong className="text-[#a5a5a5] font-normal">Amenities</strong> {listing.amenities ||"Childrens Play Area, Swimming Pool"}
-        </p> */} 
         <p className="flex flex-col text-lg">
           <strong className="text-[#a5a5a5] font-normal">Amenities</strong> 
           {listing.amenities?.join(", ") || "Children’s Play Area, Swimming Pool"}
@@ -377,48 +376,67 @@ export default function ListingDetailsPage() {
         <p className="flex flex-col text-lg">
           <strong className="text-[#a5a5a5] font-normal">Type</strong> {listing.type}
         </p>
+      </div> */}
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-sm mt-10 bg-[#1a1a1a] py-10 px-13 h-64">
+        {listing.developerName && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Developer Name</strong>
+            {listing.developerName}
+          </p>
+        )}
+
+        {listing.area && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Area</strong>
+            {listing.area}
+          </p>
+        )}
+
+        {listing.amenities && listing.amenities.length > 0 && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Amenities</strong>
+            {listing.amenities.join(", ")}
+          </p>
+        )}
+
+        {listing.location && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Region</strong>
+            {listing.location}
+          </p>
+        )}
+
+        {typeof listing.bedrooms === "number" && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Bedrooms</strong>
+            {listing.bedrooms}
+          </p>
+        )}
+
+        {typeof listing.floors === "number" && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Floors</strong>
+            {listing.floors}
+          </p>
+        )}
+
+        {/* Hardcoded only if it's always true */}
+        <p className="flex flex-col text-lg">
+          <strong className="text-[#a5a5a5] font-normal">Security</strong>
+          Yes
+        </p>
+
+        {listing.type && (
+          <p className="flex flex-col text-lg">
+            <strong className="text-[#a5a5a5] font-normal">Type</strong>
+            {listing.type}
+          </p>
+        )}
       </div>
 
-      {/* <div className="bg-[#fafafa] py-16 px-6">
-        <h2 className="text-center text-3xl font-semibold mb-10 text-black">About the Neighbourhood</h2>
-        <div className="flex-col lg:flex-row flex bg-white shadow-lg mx-20 py-7">
-          <div className="mx-auto w-full lg:w-1/2 flex px-10 flex-col">
-            <h3 className="text-xl text-black font-semibold mb-2 capitalize">{listing.title}</h3>
-            <p className="text-gray-600 mb-4">{listing.location}</p>
 
-            {typeof listing.latitude === "number" && typeof listing.longitude === "number" ? (
-              <MapClientOnly
-                lat={listing.latitude}
-                lng={listing.longitude}
-                title={listing.title}
-                location={listing.location}
-              />
-            ) : (
-              <p className="text-sm text-gray-500">Location not available</p>
-            )}
-            <button
-              onClick={() => {
-                const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${listing.latitude},${listing.longitude}`;
-                window.open(gmapsUrl, "_blank");
-              }}
-              className="bg-[#157cfb] text-white px-6 py-2 rounded mt-2 w-full font-sans"
-            >
-              Get Directions
-            </button>
-          </div>
-          <div className="w-px bg-gray-300 mx-6"></div>
-          <div className="bg-white rounded-xl p-6 w-1/2">
-            <h3 className="text-xl font-semibold mb-4 text-black">Amenities Near You</h3>
-            <ul className="space-y-3 text-[#565656]">
-              <li><strong className="text-lg">Al Ahmadi Hospital</strong><br />13 km from Location</li>
-              <li><strong className="text-lg">Indian School</strong><br />1.9 km from Location</li>
-              <li><strong className="text-lg">Mega Mart Shopping Complex</strong><br />2.0 km from Location</li>
-              <li><strong className="text-lg">Palm Metro Station</strong><br />4.4 km from Location</li>
-              <li><strong className="text-lg">Shopping Complex</strong><br />13 km from Location</li>
-            </ul>
-          </div>
-        </div>
-      </div> */}
+     
       <div className="bg-[#fafafa] py-16 px-4 sm:px-6 lg:px-12">
   <h2 className="text-center text-3xl font-semibold mb-10 text-black">
     About the Neighbourhood
@@ -429,9 +447,12 @@ export default function ListingDetailsPage() {
 </p>
 
 
-  <div className="flex flex-col lg:flex-row bg-white shadow-lg rounded-xl overflow-hidden">
+  {/* <div className="flex flex-col lg:flex-row bg-white shadow-lg rounded-xl overflow-hidden"> */}
+  <div className={`flex flex-col ${ wasGeocoded ? "items-center" : "lg:flex-row" } bg-white shadow-lg rounded-xl overflow-hidden`}>
+
     {/* Left Column - Map Section */}
-    <div className="w-full lg:w-1/2 p-6 sm:p-8 flex flex-col justify-between">
+    {/* <div className="w-full lg:w-1/2 p-6 sm:p-8 flex flex-col justify-between"> */}
+    <div className={`${ wasGeocoded ? "w-full lg:w-2/3" : "w-full lg:w-1/2"} p-6 sm:p-8 flex flex-col justify-between`}>
       <div>
         <h3 className="text-xl text-black font-semibold mb-2 capitalize">
           {listing.title}
@@ -440,12 +461,18 @@ export default function ListingDetailsPage() {
 
         {typeof listing.latitude === "number" &&
         typeof listing.longitude === "number" ? (
-          <MapClientOnly
+          // <div className={`${wasGeocoded ? "h-[500px]" : "h-[300px]"} mb-4`}>
+
+          <MapClientOnly 
             lat={listing.latitude}
             lng={listing.longitude}
             title={listing.title}
             location={listing.location}
+            height={wasGeocoded ? "500px" : "300px"}
+
           />
+          // </div>
+
         ) : (
           <p className="text-sm text-gray-500">Location not available</p>
         )}
@@ -465,27 +492,52 @@ export default function ListingDetailsPage() {
     {/* Divider - visible only on large screens */}
     <div className="hidden lg:block w-px bg-gray-300 mx-2"></div>
 
-    {/* Right Column - Amenities */}
-    <div className="w-full lg:w-1/2 p-6 sm:p-8 bg-white">
-      <h3 className="text-xl font-semibold mb-4 text-black">
-        Amenities Near You
-      </h3>
-      <ul className="space-y-3 text-[#565656]">
-  {nearbyAmenities.length === 0 ? (
-    <li>No amenities found nearby.</li>
-  ) : (
-    nearbyAmenities.map((item, index) => (
-      <li key={index}>
-        <strong className="text-lg">{item.name}</strong>
-        <br />
-        {(item.distance / 1000).toFixed(1)} km from location
-      </li>
-    ))
-  )}
-</ul>
+        {/* Right Column - Amenities */}
+        {/* <div className="w-full lg:w-1/2 p-6 sm:p-8 bg-white">
+          <h3 className="text-xl font-semibold mb-4 text-black">
+            Amenities Near You
+          </h3>
+          <ul className="space-y-3 text-[#565656]">
+          {nearbyAmenities.length === 0 ? (
+            <li>No amenities found nearby.</li>
+          ) : (
+            nearbyAmenities.map((item, index) => (
+              <li key={index}>
+                <strong className="text-lg">{item.name}</strong>
+                <br />
+                {(item.distance / 1000).toFixed(1)} km from location
+              </li>
+            ))
+          )}
+        </ul>
+        </div> */}
 
-    </div>
-  </div>
+    {!wasGeocoded && (
+
+      <div className="w-full lg:w-1/2 p-6 sm:p-8 bg-white">
+        <h3 className="text-xl font-semibold mb-4 text-black">
+          Amenities Near You
+        </h3>
+        <ul className="space-y-3 text-[#565656]">
+          {nearbyAmenities.length === 0 ? (
+            <li>No amenities found nearby.</li>
+          ) : (
+            nearbyAmenities.map((item, index) => (
+              <li key={index}>
+                <strong className="text-lg">{item.name}</strong>
+                <br />
+                {(item.distance / 1000).toFixed(1)} km from location
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+
+
+  
+)}
+
+      </div>
 </div>
 
 

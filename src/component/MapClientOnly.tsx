@@ -20,14 +20,16 @@ interface Props {
   lng: number;
   title: string;
   location: string;
+  height?: string; // optional height
+
 }
 
-export default function MapClientOnly({ lat, lng, title, location }: Props) {
+export default function MapClientOnly({ lat, lng, title, location, height = "300px" }: Props) {
   return (
     <MapContainer
       center={[lat, lng]}
       zoom={13}
-      style={{ height: "300px", width: "100%" }}
+      style={{ height , width: "100%" }}
       className="rounded mb-4"
       scrollWheelZoom={false}
     >
