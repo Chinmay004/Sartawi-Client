@@ -378,63 +378,61 @@ export default function ListingDetailsPage() {
         </p>
       </div> */}
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-sm mt-10 bg-[#1a1a1a] py-10 px-13 ">
-        {listing.developerName && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Developer Name</strong>
-            {listing.developerName}
-          </p>
-        )}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-sm mt-10 bg-[#1a1a1a] py-10 px-4 sm:px-8 lg:px-12">
+  {listing.developerName && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Developer Name</strong>
+      {listing.developerName}
+    </p>
+  )}
 
-        {listing.area && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Area</strong>
-            {listing.area}
-          </p>
-        )}
+  {listing.area && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Area</strong>
+      {listing.area}
+    </p>
+  )}
 
-        {listing.amenities && listing.amenities.length > 0 && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Amenities</strong>
-            {listing.amenities.join(", ")}
-          </p>
-        )}
+  {listing.amenities && listing.amenities.length > 0 && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Amenities</strong>
+      {listing.amenities.join(", ")}
+    </p>
+  )}
 
-        {listing.location && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Region</strong>
-            {listing.location}
-          </p>
-        )}
+  {listing.location && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Region</strong>
+      {listing.location}
+    </p>
+  )}
 
-        {typeof listing.bedrooms === "number" && listing.bedrooms > 0 && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Bedrooms</strong>
-            {listing.bedrooms}
-          </p>
-        )}
+  {typeof listing.bedrooms === "number" && listing.bedrooms > 0 && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Bedrooms</strong>
+      {listing.bedrooms}
+    </p>
+  )}
 
+  {typeof listing.floors === "number" && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Floors</strong>
+      {listing.floors}
+    </p>
+  )}
 
-        {typeof listing.floors === "number" && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Floors</strong>
-            {listing.floors}
-          </p>
-        )}
+  <p className="flex flex-col text-base">
+    <strong className="text-[#a5a5a5] font-normal">Security</strong>
+    Yes
+  </p>
 
-        {/* Hardcoded only if it's always true */}
-        <p className="flex flex-col text-lg">
-          <strong className="text-[#a5a5a5] font-normal">Security</strong>
-          Yes
-        </p>
-
-        {listing.type && (
-          <p className="flex flex-col text-lg">
-            <strong className="text-[#a5a5a5] font-normal">Type</strong>
-            {listing.type}
-          </p>
-        )}
-      </div>
+  {listing.type && (
+    <p className="flex flex-col text-base">
+      <strong className="text-[#a5a5a5] font-normal">Type</strong>
+      {listing.type}
+    </p>
+  )}
+</div>
 
 
      
