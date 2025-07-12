@@ -378,7 +378,7 @@ export default function ListingDetailsPage() {
         </p>
       </div> */}
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-sm mt-10 bg-[#1a1a1a] py-10 px-13 h-64">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-sm mt-10 bg-[#1a1a1a] py-10 px-13 ">
         {listing.developerName && (
           <p className="flex flex-col text-lg">
             <strong className="text-[#a5a5a5] font-normal">Developer Name</strong>
