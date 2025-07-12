@@ -1,6 +1,3 @@
-
-
-
 'use client';
 
 import Navbar from "@/component/layout/Navbar";
@@ -10,25 +7,31 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-
-
-
-
-
 const IMAGE_BASE_URL = "https://oss.pixxicrm.com";
 
-const logos = [
-  { src: "/Ellingto.png", name: "Ellington" },
-  { src: "/Deyaar.png", name: "Deyaar" },
-  { src: "/Omniyat.png", name: "Omniyat" },
-  { src: "/Arada.png", name: "Arada" },
-  { src: "/Damac.png", name: "Damac" },
-  { src: "/BInghatti.png", name: "Binghatti" },
-  { src: "/Meraas.png", name: "Meraas" },
-  { src: "/Nakheel.png", name: "Nakheel" },
-  { src: "/Azizi.png", name: "Azizi" },
-];
+// const logos = [
+//   { src: "devv/Ellingto.png", name: "Ellington" },
+//   { src: "devv/Deyaar.png", name: "Deyaar" },
+//   { src: "devv/Omniyat.png", name: "Omniyat" },
+//   { src: "devv/Arada.png", name: "Arada" },
+//   { src: "devv/Damac.png", name: "Damac" },
+//   { src: "devv/BInghatti.png", name: "Binghatti" },
+//   { src: "devv/Meraas.png", name: "Meraas" },
+//   { src: "devv/Nakheel.png", name: "Nakheel" },
+//   { src: "devv/Azizi.png", name: "Azizi" },
+// ];
 
+const logos = [
+  { src: "/devv/Ellingto.webp", name: "Ellington" },
+  { src: "/devv/Deyaar.webp", name: "Deyaar" },
+  { src: "/devv/Omniyat.webp", name: "Omniyat" },
+  { src: "/devv/Arada.webp", name: "Arada" },
+  { src: "/devv/Damac.webp", name: "Damac" },
+  { src: "/devv/BInghatti.webp", name: "Binghatti" },
+  { src: "/devv/Meraas.webp", name: "Meraas" },
+  { src: "/devv/Nakheel.webp", name: "Nakheel" },
+  { src: "/devv/Azizi.webp", name: "Azizi" },
+];
 
 interface Listing {
   id: string;

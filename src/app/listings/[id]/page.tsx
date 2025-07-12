@@ -407,12 +407,13 @@ export default function ListingDetailsPage() {
           </p>
         )}
 
-        {typeof listing.bedrooms === "number" && (
+        {typeof listing.bedrooms === "number" && listing.bedrooms > 0 && (
           <p className="flex flex-col text-lg">
             <strong className="text-[#a5a5a5] font-normal">Bedrooms</strong>
             {listing.bedrooms}
           </p>
         )}
+
 
         {typeof listing.floors === "number" && (
           <p className="flex flex-col text-lg">
