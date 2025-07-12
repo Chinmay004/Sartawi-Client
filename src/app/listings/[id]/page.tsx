@@ -18,6 +18,7 @@ import Image from "next/image";
 import ContactModal from "@/component/ContactModal"
 import { fetchNearbyAmenities, Amenity } from "@/utils/fetchNearbyAmenities";
 import { decodeAmenities } from "@/utils/decodeAmenities";
+import { geocodeRegion } from "@/utils/geocodeRegion";
 
 // Fix Leaflet icons
 L.Icon.Default.mergeOptions({
@@ -116,17 +117,42 @@ export default function ListingDetailsPage() {
             ? parseInt(item.newParameter.totalFloor)
             : undefined,
           developerName: item.developerName,
-          latitude: item.newParameter?.position
-            ? parseFloat(item.newParameter.position.split(",")[0])
-            : 25.2048,
-          longitude: item.newParameter?.position
-            ? parseFloat(item.newParameter.position.split(",")[1])
-            : 55.2708,
-        };
+        //   latitude: item.newParameter?.position
+        //     ? parseFloat(item.newParameter.position.split(",")[0])
+        //     : 0,
+        //   longitude: item.newParameter?.position
+        //     ? parseFloat(item.newParameter.position.split(",")[1])
+        //     : 0,
+       
+        latitude: item.newParameter?.position
+        ? parseFloat(item.newParameter.position.split(",")[0])
+        : undefined,
+      longitude: item.newParameter?.position
+        ? parseFloat(item.newParameter.position.split(",")[1])
+        : undefined,
+ };
         
 
 
         setListing(mappedListing);
+
+        let lat = mappedListing.latitude;
+        let lng = mappedListing.longitude;
+
+        if ((!lat || !lng) && mappedListing.location) {
+          const geo = await geocodeRegion(mappedListing.location);
+          if (geo) {
+            lat = geo.lat;
+            lng = geo.lon;
+          }
+        }
+
+        // Pass these coordinates to map and amenity fetch
+        if (lat && lng) {
+          fetchNearbyAmenities(lat, lng).then(setNearbyAmenities);
+          setListing(prev => prev ? { ...prev, latitude: lat, longitude: lng } : prev);
+        }
+
 
         // After setListing(...)
         if (mappedListing.latitude && mappedListing.longitude) {
@@ -210,7 +236,7 @@ export default function ListingDetailsPage() {
               />
             </div>
 
-            <div className="flex gap-2 mt-4 overflow-x-auto">
+            {/* <div className="flex gap-2 mt-4 overflow-x-auto">
               {listing.images.map((img, i) => (
                 <button
                   key={i}
@@ -227,7 +253,52 @@ export default function ListingDetailsPage() {
                   />
                 </button>
               ))}
+            </div> */}
+
+              {/* version2 */}
+            {/* <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2 mt-4 max-h-[110px] overflow-y-auto pr-2">
+                {listing.images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setMainImage(img)}
+                    className={`relative aspect-[4/3] w-full rounded-lg overflow-hidden border ${
+                      mainImage === img ? "border-white" : "border-transparent"
+                    } focus:outline-none`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`Thumbnail ${i + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div> */}
+
+
+
+
+                <div className="flex overflow-x-auto gap-2 mt-4 pb-2 scrollbar-hide">
+              {listing.images.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setMainImage(img)}
+                  className={`relative flex-shrink-0 w-28 h-20 rounded-lg overflow-hidden border ${
+                    mainImage === img ? "border-white" : "border-transparent"
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`Thumbnail ${i + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </button>
+              ))}
             </div>
+
+
+
           </div>
 
           {/* Details Section */}
@@ -352,6 +423,11 @@ export default function ListingDetailsPage() {
   <h2 className="text-center text-3xl font-semibold mb-10 text-black">
     About the Neighbourhood
   </h2>
+
+  <p className="text-sm text-gray-500 mt-2">
+  Latitude: {listing.latitude}, Longitude: {listing.longitude}
+</p>
+
 
   <div className="flex flex-col lg:flex-row bg-white shadow-lg rounded-xl overflow-hidden">
     {/* Left Column - Map Section */}
